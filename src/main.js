@@ -25,7 +25,7 @@ pinia.use(createPersistedState);
 
 // Configuración global de axios
 // axios.defaults.baseURL = 'http://localhost:8080/';
-axios.defaults.baseURL = 'v1-backend-casas-charlotte-production.up.railway.app';
+axios.defaults.baseURL = 'https://v1-backend-casas-charlotte-production.up.railway.app/';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = true;
