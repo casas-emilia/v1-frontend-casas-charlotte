@@ -50,7 +50,7 @@ const handleSwipe = (direction) => {
 
 const obtenerImagenesDeNoticia = async (noticiaId) => {
     try {
-        const imagenesResponse = await axios.get(`http://localhost:8080/empresas/1/noticiasEmpresa/${noticiaId}/imagenesNoticiasEmpresa/`);
+        const imagenesResponse = await axios.get(`/empresas/1/noticiasEmpresa/${noticiaId}/imagenesNoticiasEmpresa/`);
         //const imagenesResponse = await axios.get(`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticiaId}/imagenesNoticiasEmpresa/`);
         const imagenes = imagenesResponse.data.imagenes_noticia || [];
         return imagenes.length > 0 ? imagenes : [{ image: '/img/placeholder.png' }];
@@ -62,7 +62,7 @@ const obtenerImagenesDeNoticia = async (noticiaId) => {
 
 const getActividadDetalle = async () => {
     try {
-        const noticiasResponse = await axios.get(`http://localhost:8080/empresas/1/noticiasEmpresa/${route.params.id}`);
+        const noticiasResponse = await axios.get(`/empresas/1/noticiasEmpresa/${route.params.id}`);
         //const noticiasResponse = await axios.get(`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${route.params.id}`);
         const noticia = noticiasResponse.data.noticia || {};
         const imagenes = await obtenerImagenesDeNoticia(noticia.id);

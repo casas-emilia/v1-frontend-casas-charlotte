@@ -9,7 +9,7 @@ const servicios_empresa = ref([]);
 
 const fetchNosotrosData = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/empresas/1`);
+        const response = await axios.get(`/empresas/1`);
         const empresa = response.data.empresa;
 
         nombre_empresa.value = empresa.nombre_empresa;

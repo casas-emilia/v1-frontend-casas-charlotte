@@ -208,7 +208,7 @@ export default {
     // Cargar tipos disponibles
     const getTiposDisponibles = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/administracion/tipos/");
+        const response = await axios.get("/administracion/tipos/");
         // const response = await axios.get("https://v1backendcasasamilia-production.up.railway.app/administracion/tipos/");
         tiposDisponibles.value = response.data["tipos"];
       } catch (error) {
@@ -346,7 +346,7 @@ export default {
     // Obtener las categorías
     const getCategorias = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/administracion/categorias/");
+        const response = await axios.get("/administracion/categorias/");
         // const response = await axios.get("https://v1backendcasasamilia-production.up.railway.app/administracion/categorias/");
         categorias.value = response.data.categorias;
         applyFilters();

@@ -10,7 +10,7 @@ let carouselInstance = null
 
 const fetchImages = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/empresas/1/portadas/')
+        const response = await axios.get('/empresas/1/portadas/')
         images.value = response.data.portadas
     } catch (err) {
         console.error('Error al obtener las imágenes:', err)

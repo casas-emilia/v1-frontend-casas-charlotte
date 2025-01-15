@@ -12,13 +12,13 @@ const fetchData = async () => {
   try {
     // Paso 1: Obtener usuarios de la empresa
     const usuariosRes = await axios.get(
-      "http://localhost:8080/empresas/1/usuarios/"
+      "/empresas/1/usuarios/"
     );
     const usuarios = usuariosRes.data.usuarios;
 
     // Paso 2: Obtener roles_usuarios del rol "ejecutivo_ventas"
     const rolesRes = await axios.get(
-      "http://localhost:8080/roles/3/roles_usuarios/"
+      "/roles/3/roles_usuarios/"
     );
     const rolesUsuarios = rolesRes.data.roles_usuarios;
 
@@ -34,7 +34,7 @@ const fetchData = async () => {
         let contacto;
         try {
           const contactosRes = await axios.get(
-            `http://localhost:8080/empresas/1/usuarios/${ejecutivo.id}/contactos/`
+            `/empresas/1/usuarios/${ejecutivo.id}/contactos/`
           );
           contacto = contactosRes.data.contactos[0]; // Suponiendo un solo contacto por usuario
         } catch (error) {

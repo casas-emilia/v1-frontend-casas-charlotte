@@ -18,7 +18,7 @@ const router = useRouter();
 
 const getUltimasNoticias = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/empresas/1/noticiasEmpresa/');
+    const response = await axios.get('/empresas/1/noticiasEmpresa/');
     // const response = await axios.get('https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/');
     const noticiasData = response.data.noticias || [];
 
@@ -29,7 +29,7 @@ const getUltimasNoticias = async () => {
     const noticiasConImagenes = await Promise.all(
       noticiasOrdenadas.map(async (noticia) => {
         const imagenResponse = await axios.get(
-          `http://localhost:8080/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
+          `/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
           //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
         );
         const imagenes = imagenResponse.data.imagenes_noticia || [];

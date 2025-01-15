@@ -159,7 +159,7 @@
   
       const getEstilos = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/administracion/estilos/");
+          const response = await axios.get("/administracion/estilos/");
           // const response = await axios.get("https://v1backendcasasamilia-production.up.railway.app/administracion/estilos/");
           estilos.value = response.data.estilos;
           applyFilters();
@@ -206,8 +206,8 @@
         try {
           const url =
             modalMode.value === "create"
-              ? "http://localhost:8080/administracion/estilos/"
-              : `http://localhost:8080/administracion/estilos/${form.value.id}`;
+              ? "/administracion/estilos/"
+              : `/administracion/estilos/${form.value.id}`;
               //? "https://v1backendcasasamilia-production.up.railway.app/administracion/estilos/"
               //: `https://v1backendcasasamilia-production.up.railway.app/administracion/estilos/${form.value.id}`;
   
@@ -240,7 +240,7 @@
           });
   
           if (result.isConfirmed) {
-            await axios.delete(`http://localhost:8080/administracion/estilos/${id}`);
+            await axios.delete(`/administracion/estilos/${id}`);
             //await axios.delete(`https://v1backendcasasamilia-production.up.railway.app/administracion/estilos/${id}`);
             Swal.fire("Eliminado", "El estilo ha sido eliminado", "success");
             getEstilos();

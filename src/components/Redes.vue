@@ -34,7 +34,7 @@ export default {
 
     const fetchRedesSociales = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/empresas/1/redes/');
+        const response = await axios.get('/empresas/1/redes/');
         //const response = await axios.get('https://v1backendcasasamilia-production.up.railway.app/empresas/1/redes/');
         redesSociales.value = response.data.redes_sociales;
       } catch (error) {

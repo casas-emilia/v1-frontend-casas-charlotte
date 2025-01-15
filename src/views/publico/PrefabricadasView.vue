@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const baseURL = "http://localhost:8080";
+const baseURL = "https://v1-backend-casas-charlotte-production.up.railway.app";
 // const baseURL = "https://v1backendcasasamilia-production.up.railway.app";
 
 // Estados reactivos

@@ -469,7 +469,7 @@ onMounted(async () => {
 
 const fetchPrefabricadas = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/administracion/empresas/1/prefabricadas/')
+    const response = await axios.get('/administracion/empresas/1/prefabricadas/')
     prefabricadas.value = response.data.prefabricadas
   } catch (error) {
     console.error('Error fetching prefabricadas:', error)
@@ -479,7 +479,7 @@ const fetchPrefabricadas = async () => {
 
 const fetchCategorias = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/administracion/categorias/')
+    const response = await axios.get('/administracion/categorias/')
     categorias.value = response.data.categorias
   } catch (error) {
     console.error('Error fetching categorias:', error)
@@ -489,7 +489,7 @@ const fetchCategorias = async () => {
 
 const fetchEstilos = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/administracion/estilos/')
+    const response = await axios.get('/administracion/estilos/')
     estilos.value = response.data.estilos
   } catch (error) {
     console.error('Error fetching estilos:', error)
@@ -499,7 +499,7 @@ const fetchEstilos = async () => {
 
 const fetchTipos = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/administracion/tipos/')
+    const response = await axios.get('/administracion/tipos/')
     tipos.value = response.data.tipos
   } catch (error) {
     console.error('Error fetching tipos:', error)
@@ -510,9 +510,9 @@ const fetchTipos = async () => {
 const savePrefabricada = async () => {
   try {
     if (isEditing.value) {
-      await axios.put(`http://localhost:8080/administracion/empresas/1/prefabricadas/${currentPrefabricada.value.id}`, currentPrefabricada.value)
+      await axios.put(`/administracion/empresas/1/prefabricadas/${currentPrefabricada.value.id}`, currentPrefabricada.value)
     } else {
-      await axios.post('http://localhost:8080/administracion/empresas/1/prefabricadas/', currentPrefabricada.value)
+      await axios.post('/administracion/empresas/1/prefabricadas/', currentPrefabricada.value)
     }
     await fetchPrefabricadas()
     prefabricadaModal.value.hide()
@@ -537,7 +537,7 @@ const deletePrefabricada = async (id) => {
     })
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/administracion/empresas/1/prefabricadas/${id}`)
+      await axios.delete(`/administracion/empresas/1/prefabricadas/${id}`)
       await fetchPrefabricadas()
       Swal.fire('Eliminado', 'La prefabricada ha sido eliminada', 'success')
     }
@@ -558,7 +558,7 @@ const showPrefabricadaDetails = async (prefabricada) => {
 const fetchImagenes = async (prefabricadaId) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/administracion/empresas/1/prefabricadas/${prefabricadaId}/imagenesPrefabricadas/`
+      `/administracion/empresas/1/prefabricadas/${prefabricadaId}/imagenesPrefabricadas/`
     );
 
     // Verifica si la respuesta tiene imágenes
@@ -580,7 +580,7 @@ const fetchImagenes = async (prefabricadaId) => {
 
 const fetchCaracteristicas = async (prefabricadaId) => {
   try {
-    const response = await axios.get(`http://localhost:8080/administracion/empresas/1/prefabricadas/${prefabricadaId}/caracteristicas/`)
+    const response = await axios.get(`/administracion/empresas/1/prefabricadas/${prefabricadaId}/caracteristicas/`)
     caracteristicas.value = response.data.caracteristicas
   } catch (error) {
     console.error('Error fetching caracteristicas:', error)
@@ -590,7 +590,7 @@ const fetchCaracteristicas = async (prefabricadaId) => {
 
 const fetchPrecios = async (prefabricadaId) => {
   try {
-    const response = await axios.get(`http://localhost:8080/administracion/empresas/1/prefabricadas/${prefabricadaId}/precios/`)
+    const response = await axios.get(`/administracion/empresas/1/prefabricadas/${prefabricadaId}/precios/`)
     precios.value = response.data.precios
   } catch (error) {
     console.error('Error fetching precios:', error)
@@ -649,13 +649,13 @@ const saveImagen = async () => {
 
     if (isEditing.value) {
       await axios.put(
-        `http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/${currentImagen.value.id}`,
+        `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/${currentImagen.value.id}`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
     } else {
       await axios.post(
-        `http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/`,
+        `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
@@ -672,9 +672,9 @@ const saveImagen = async () => {
 const saveCaracteristica = async () => {
   try {
     if (isEditing.value) {
-      await axios.put(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/${currentCaracteristica.value.id}`, currentCaracteristica.value)
+      await axios.put(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/${currentCaracteristica.value.id}`, currentCaracteristica.value)
     } else {
-      await axios.post(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/`, currentCaracteristica.value)
+      await axios.post(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/`, currentCaracteristica.value)
     }
     await fetchCaracteristicas(selectedPrefabricada.value.id)
     caracteristicaModal.value.hide()
@@ -688,9 +688,9 @@ const saveCaracteristica = async () => {
 const savePrecio = async () => {
   try {
     if (isEditing.value) {
-      await axios.put(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${currentPrecio.value.id}`, currentPrecio.value)
+      await axios.put(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${currentPrecio.value.id}`, currentPrecio.value)
     } else {
-      await axios.post(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/`, currentPrecio.value)
+      await axios.post(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/`, currentPrecio.value)
     }
     await fetchPrecios(selectedPrefabricada.value.id)
     precioModal.value.hide()
@@ -704,9 +704,9 @@ const savePrecio = async () => {
 const saveIncluye = async () => {
   try {
     if (isEditing.value) {
-      await axios.put(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/incluyes/${currentIncluye.value.id}`, currentIncluye.value)
+      await axios.put(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/incluyes/${currentIncluye.value.id}`, currentIncluye.value)
     } else {
-      await axios.post(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/incluyes/`, currentIncluye.value)
+      await axios.post(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/incluyes/`, currentIncluye.value)
     }
     await fetchPrecios(selectedPrefabricada.value.id)
     incluyeModal.value.hide()
@@ -721,12 +721,12 @@ const saveAdicional = async () => {
   try {
     if (isEditing.value) {
       await axios.put(
-        `http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/adicionales/${currentAdicional.value.id}`,
+        `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/adicionales/${currentAdicional.value.id}`,
         currentAdicional.value
       )
     } else {
       await axios.post(
-        `http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/adicionales/`,
+        `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${selectedPrecioId.value}/adicionales/`,
         currentAdicional.value
       )
     }
@@ -753,7 +753,7 @@ const deleteImagen = async (id) => {
     })
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/${id}`)
+      await axios.delete(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/${id}`)
       await fetchImagenes(selectedPrefabricada.value.id)
       Swal.fire('Eliminado', 'La imagen ha sido eliminada', 'success')
     }
@@ -777,7 +777,7 @@ const deleteCaracteristica = async (id) => {
     })
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/${id}`)
+      await axios.delete(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/caracteristicas/${id}`)
       await fetchCaracteristicas(selectedPrefabricada.value.id)
       Swal.fire('Eliminado', 'La característica ha sido eliminada', 'success')
     }
@@ -801,7 +801,7 @@ const deletePrecio = async (id) => {
     })
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${id}`)
+      await axios.delete(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${id}`)
       await fetchPrecios(selectedPrefabricada.value.id)
       Swal.fire('Eliminado', 'El precio ha sido eliminado', 'success')
     }
@@ -825,7 +825,7 @@ const deleteIncluye = async (id, precioId) => {
     })
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${precioId}/incluyes/${id}`)
+      await axios.delete(`/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${precioId}/incluyes/${id}`)
       await fetchPrecios(selectedPrefabricada.value.id)
       Swal.fire('Eliminado', 'El incluye ha sido eliminado', 'success')
     }
@@ -850,7 +850,7 @@ const deleteAdicional = async (id, precioId) => {
 
     if (result.isConfirmed) {
       await axios.delete(
-        `http://localhost:8080/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${precioId}/adicionales/${id}`
+        `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/precios/${precioId}/adicionales/${id}`
       )
       await fetchPrecios(selectedPrefabricada.value.id)
       Swal.fire('Eliminado', 'El adicional ha sido eliminado', 'success')

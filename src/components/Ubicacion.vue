@@ -8,7 +8,7 @@ const error = ref(null);
 
 const fetchUbicacion = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/empresas/1');
+    const response = await axios.get('/empresas/1');
     console.log('Respuesta del servidor:', response);
     empresas.value = response.data.empresa || {};
     loading.value = false;

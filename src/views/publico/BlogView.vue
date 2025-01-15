@@ -17,7 +17,7 @@ const router = useRouter();
 const getActividad = async () => {
   try {
     const noticiasResponse = await axios.get(
-      `http://localhost:8080/empresas/1/noticiasEmpresa/`,
+      `/empresas/1/noticiasEmpresa/`,
       //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/`,
       {
         params: {
@@ -32,7 +32,7 @@ const getActividad = async () => {
     const noticiasConImagenes = await Promise.all(
       noticias.map(async (noticia) => {
         const imagenesResponse = await axios.get(
-          `http://localhost:8080/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
+          `/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
           //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
         );
 

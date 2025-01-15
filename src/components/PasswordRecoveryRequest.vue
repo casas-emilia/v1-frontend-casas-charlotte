@@ -53,7 +53,7 @@ const handleRecoveryRequest = async () => {
   isLoading.value = true
 
   try {
-    const response = await axios.post('http://localhost:8080/password-recovery', {
+    const response = await axios.post('/password-recovery', {
       email: email.value
     })
 

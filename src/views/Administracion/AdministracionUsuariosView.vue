@@ -209,7 +209,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const empresaId = 1;
-const baseURL = `http://localhost:8080/administracion/empresas/${empresaId}/usuarios`;
+const baseURL = `https://v1-backend-casas-charlotte-production.up.railway.app/administracion/empresas/${empresaId}/usuarios`;
 //const baseURL = `https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/${empresaId}/usuarios`;
 
 const users = ref([]);

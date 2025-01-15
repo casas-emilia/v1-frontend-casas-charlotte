@@ -26,7 +26,7 @@ const copyEmail = () => {
 // Obtener datos de contacto
 const fetchContactData = async () => {
     try {
-        const { data } = await axios.get('http://localhost:8080/empresas/1');
+        const { data } = await axios.get('/empresas/1');
         const { email_empresa, ubicacion_empresa, celular_empresa } = data.empresa;
         email.value = email_empresa;
         address.value = ubicacion_empresa;

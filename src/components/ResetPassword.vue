@@ -82,7 +82,7 @@
     }
   
     try {
-      const response = await axios.post('http://localhost:8080/reset-password', {
+      const response = await axios.post('/reset-password', {
       // const response = await axios.post('https://v1backendcasasamilia-production.up.railway.app/reset-password', {  
         token: token.value,
         nueva_clave: newPassword.value,

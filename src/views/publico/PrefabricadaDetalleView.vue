@@ -16,7 +16,7 @@ const touchEndX = ref(0);
 
 const route = useRoute();
 const router = useRouter();
-const baseURL = "http://localhost:8080/empresas/1";
+const baseURL = "https://v1-backend-casas-charlotte-production.up.railway.app/empresas/1";
 
 // Computed properties para separar imágenes normales y planos
 const regularImages = computed(() => 

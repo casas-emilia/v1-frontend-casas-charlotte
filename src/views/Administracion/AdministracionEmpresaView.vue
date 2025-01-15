@@ -212,7 +212,7 @@
   
       const getEmpresas = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/administracion/empresas/");
+          const response = await axios.get("/administracion/empresas/");
           // const response = await axios.get("https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/");
           empresas.value = response.data.empresas;
           applyFilters();
@@ -269,8 +269,8 @@
         try {
           const url =
             modalMode.value === "create"
-              ? "http://localhost:8080/administracion/empresas/"
-              : `http://localhost:8080/administracion/empresas/${form.value.id}`;
+              ? "/administracion/empresas/"
+              : `/administracion/empresas/${form.value.id}`;
               //? "https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/"
               //: `https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/${form.value.id}`;
   
@@ -298,7 +298,7 @@
           });
   
           if (result.isConfirmed) {
-            await axios.delete(`http://localhost:8080/administracion/empresas/${id}`);
+            await axios.delete(`/administracion/empresas/${id}`);
             // await axios.delete(`https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/${id}`);
             Swal.fire("Éxito", "Empresa eliminada correctamente", "success");
             getEmpresas();
