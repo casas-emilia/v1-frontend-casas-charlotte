@@ -80,7 +80,28 @@
           </div>
           <div class="modal-body">
             <form @submit.prevent="submitArticle">
-              <!-- ... (previous form fields remain unchanged) ... -->
+              <div class="mb-3">
+                  <label for="title" class="form-label">Titulo</label>
+                  <input v-model="currentArticle.titulo_noticia" id="title" type="text" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="content" class="form-label">Contenido</label>
+                  <textarea v-model="currentArticle.desarrollo_noticia" id="content" rows="4" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Imagen</label>
+                  <div v-if="isEditing && articleImages[currentArticle.id]" class="mb-2">
+                    <div class="d-flex flex-wrap gap-2">
+                      <div v-for="image in articleImages[currentArticle.id]" :key="image.id" class="position-relative">
+                        <img :src="image.image" alt="Article image" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                        <!-- <button @click="deleteImage(currentArticle.id, image.id)" class="btn btn-danger btn-sm position-absolute top-0 end-0" style="padding: 0.1rem 0.3rem;">
+                          <i class="fas fa-times"></i>
+                        </button> -->
+                      </div>
+                    </div>
+                  </div>
+                  <input type="file" @change="handleImageUpload" accept="image/*" class="form-control" multiple>
+                </div>
               <div class="text-end">
                 <button type="button" @click="closeNewsModal" class="btn btn-secondary me-2" :disabled="isSubmitting">Cancelar</button>
                 <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
