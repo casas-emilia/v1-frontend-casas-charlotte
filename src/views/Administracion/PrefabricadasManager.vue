@@ -135,7 +135,10 @@
                   </option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Guardar</button>
+              <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isLoading ? 'Guardando...' : 'Guardar' }}
+              </button>
             </form>
           </div>
         </div>
@@ -292,7 +295,10 @@
               <input type="checkbox" class="form-check-input" id="imagenPlano" v-model="currentImagen.plano">
               <label class="form-check-label" for="imagenPlano">Marcar si la imagen es un Plano/Diagrama de la Casa</label>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary" :disabled="isUploading">
+              <span v-if="isUploading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isUploading ? 'Subiendo...' : 'Subir' }}
+            </button>
           </form>
         </div>
       </div>
@@ -434,6 +440,9 @@ const precioModal = ref(null)
 const incluyeModal = ref(null)
 const adicionalModal = ref(null)
 
+const isLoading = ref(false)
+const isUploading = ref(false)
+
 // Pagination
 const currentPage = ref(1)
 const itemsPerPage = 10
@@ -508,6 +517,7 @@ const fetchTipos = async () => {
 }
 
 const savePrefabricada = async () => {
+  isLoading.value = true
   try {
     if (isEditing.value) {
       await axios.put(`/administracion/empresas/1/prefabricadas/${currentPrefabricada.value.id}`, currentPrefabricada.value)
@@ -520,6 +530,8 @@ const savePrefabricada = async () => {
   } catch (error) {
     console.error('Error saving prefabricada:', error)
     Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'crear'} la prefabricada`, 'error')
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -638,6 +650,7 @@ const handleFileUpload = (event) => {
 }
 
 const saveImagen = async () => {
+  isUploading.value = true
   try {
     const formData = new FormData()
     if (isEditing.value) {
@@ -645,7 +658,7 @@ const saveImagen = async () => {
     } else {
       formData.append('image', currentImagen.value.file)
     }
-    formData.append('plano', currentImagen.value.plano ? 1 : 0) // Convertir boolean a 1/0 si es necesario
+    formData.append('plano', currentImagen.value.plano ? 1 : 0)
 
     if (isEditing.value) {
       await axios.put(
@@ -666,6 +679,8 @@ const saveImagen = async () => {
   } catch (error) {
     console.error('Error saving imagen:', error)
     Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'agregar'} la imagen`, 'error')
+  } finally {
+    isUploading.value = false
   }
 }
 
