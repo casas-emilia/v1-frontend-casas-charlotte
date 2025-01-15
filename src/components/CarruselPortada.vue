@@ -106,11 +106,11 @@ watch(images, () => {
                         v-if="!img.error" 
                         class="carousel-caption"
                     >
-                        <h5>{{ img.nombre_portada }}</h5>
+                        <!-- <h5>{{ img.nombre_portada }}</h5>
                         <p v-if="img.link" class="link-hint">
                             Click para más información
                             <span class="arrow">→</span>
-                        </p>
+                        </p> -->
                     </div>
                     <div 
                         v-else 
