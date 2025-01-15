@@ -74,7 +74,7 @@
     if (authStore) {
       try {
         //const response = await axios.get(`https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/1/usuarios/${userInfo.userId}`);
-        const response = await axios.get(`http://localhost:8080/administracion/empresas/1/usuarios/${authStore.userId}`);
+        const response = await axios.get(`/empresas/1/usuarios/${authStore.userId}`);
         userName.value = `${response.data.usuario.primer_nombre} ${response.data.usuario.primer_apellido}`;
         userProfileImage.value = response.data.usuario.image || '/img/logo_usuario.png';
         // console.log('Datos de la ruta protegida:', response.data);
