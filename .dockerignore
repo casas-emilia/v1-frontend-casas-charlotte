@@ -1,0 +1,39 @@
+# Ignorar node_modules para evitar copiar dependencias innecesarias
+node_modules
+
+# Ignorar carpetas de compilación y salidas generadas
+dist
+dist-ssr
+
+# Ignorar registros y archivos temporales
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Ignorar resultados de pruebas y cobertura
+coverage
+
+# Ignorar configuraciones locales y específicas de editor
+*.local
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Ignorar videos y capturas generadas por Cypress (si usas Cypress)
+cypress/videos/
+cypress/screenshots/
+
+# Ignorar archivos específicos de TypeScript
+*.tsbuildinfo
+
+# Ignorar archivos relacionados con Git
+.git
+.gitignore
