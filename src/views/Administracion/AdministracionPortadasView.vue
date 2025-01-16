@@ -101,6 +101,7 @@ const baseURL = `https://v1-backend-casas-charlotte-production.up.railway.app/ad
 const portadas = ref([]);
 const formData = ref({
   nombre_portada: '',
+  link: '',
   image: null
 });
 const editingPortada = ref(null);
@@ -144,6 +145,15 @@ const handleSubmit = async () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      // Update the portada in the list
+      const index = portadas.value.findIndex(p => p.id === editingPortada.value.id);
+      if (index !== -1) {
+        portadas.value[index] = {
+          ...portadas.value[index],
+          ...response.data.portada,
+          image: response.data.portada.image + '?t=' + new Date().getTime() // Add timestamp to force image refresh
+        };
+      }
       Swal.fire('Éxito', 'Portada actualizada correctamente', 'success');
     } else {
       response = await axios.post(baseURL, data, {
@@ -151,13 +161,14 @@ const handleSubmit = async () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      // Add the new portada to the list
+      portadas.value.unshift(response.data.portada);
       Swal.fire('Éxito', 'Portada creada correctamente', 'success');
     }
 
     console.log('Server response:', response.data);
 
     resetForm();
-    fetchPortadas(currentPage.value);
   } catch (error) {
     console.error('Error submitting portada:', error);
     let errorMessage = 'No se pudo guardar la portada';
@@ -178,6 +189,7 @@ const editPortada = (portada) => {
   editingPortada.value = portada;
   formData.value.nombre_portada = portada.nombre_portada;
   formData.value.link = portada.link;
+  formData.value.image = null; // Reset image when editing
 };
 
 const deletePortada = async (id) => {
@@ -194,8 +206,9 @@ const deletePortada = async (id) => {
 
     if (result.isConfirmed) {
       await axios.delete(`${baseURL}${id}`);
+      // Remove the deleted portada from the list
+      portadas.value = portadas.value.filter(p => p.id !== id);
       Swal.fire('Eliminado', 'La portada ha sido eliminada', 'success');
-      fetchPortadas(currentPage.value);
     }
   } catch (error) {
     console.error('Error deleting portada:', error);
@@ -246,3 +259,4 @@ onMounted(() => fetchPortadas());
   object-fit: cover;
 }
 </style>
+
