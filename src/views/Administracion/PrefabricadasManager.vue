@@ -668,8 +668,8 @@ const saveImagen = async () => {
     console.log('Server response:', response.data);  // Log the entire response for debugging
 
     let updatedImage;
-    if (response.data && response.data.imagen) {
-      updatedImage = response.data.imagen;
+    if (response.data && response.data.Imagen) {
+      updatedImage = response.data.Imagen;
     } else {
       throw new Error('La respuesta del servidor no contiene la información de la imagen esperada');
     }
