@@ -57,7 +57,7 @@ const handleRecoveryRequest = async () => {
       email: email.value
     })
 
-    message.value = response.data.message || 'Se ha enviado un email con las instrucciones para recuperar tu contraseña. (Aparecerá en tu correo: entre 1 a 10 minutos)'
+    message.value = response.data.message || 'Se ha enviado un email con las instrucciones para recuperar tu contraseña.'
     email.value = ''
   } catch (err) {
     if (err.response) {
