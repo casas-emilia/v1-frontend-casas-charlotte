@@ -641,13 +641,6 @@ const openModal = (type, item = null, precioId = null) => {
   }
 }
 
-const handleFileUpload = (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    currentImagen.value.file = file
-  }
-}
-
 const saveImagen = async () => {
   isUploading.value = true
   try {
@@ -677,8 +670,6 @@ const saveImagen = async () => {
     let updatedImage;
     if (response.data && response.data.imagen) {
       updatedImage = response.data.imagen;
-    } else if (response.data && response.data.image) {
-      updatedImage = response.data;
     } else {
       throw new Error('La respuesta del servidor no contiene la información de la imagen esperada');
     }
@@ -710,6 +701,13 @@ const saveImagen = async () => {
     Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'agregar'} la imagen. ${error.message}`, 'error')
   } finally {
     isUploading.value = false
+  }
+}
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    currentImagen.value.file = file
   }
 }
 
