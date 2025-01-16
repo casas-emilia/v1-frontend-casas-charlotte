@@ -653,27 +653,41 @@ const saveImagen = async () => {
   isUploading.value = true
   try {
     const formData = new FormData()
-    if (isEditing.value) {
-      formData.append('image', currentImagen.value.image)
-    } else {
+    if (currentImagen.value.file) {
       formData.append('image', currentImagen.value.file)
     }
     formData.append('plano', currentImagen.value.plano ? 1 : 0)
 
+    let response;
     if (isEditing.value) {
-      await axios.put(
+      response = await axios.put(
         `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/${currentImagen.value.id}`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
     } else {
-      await axios.post(
+      response = await axios.post(
         `/administracion/empresas/1/prefabricadas/${selectedPrefabricada.value.id}/imagenesPrefabricadas/`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
     }
-    await fetchImagenes(selectedPrefabricada.value.id)
+
+    // Update the image in the imagenes array
+    const updatedImage = response.data.imagen
+    if (isEditing.value) {
+      const index = imagenes.value.findIndex(img => img.id === updatedImage.id)
+      if (index !== -1) {
+        imagenes.value[index] = {
+          ...imagenes.value[index],
+          ...updatedImage,
+          image: updatedImage.image + '?t=' + new Date().getTime() // Add timestamp to force image refresh
+        }
+      }
+    } else {
+      imagenes.value.push(updatedImage)
+    }
+
     imagenModal.value.hide()
     Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
   } catch (error) {
@@ -901,6 +915,7 @@ const editIncluye = (incluye, precioId) => {
 const editAdicional = (adicional, precioId) => {
   openModal('adicional', adicional, precioId)
 }
+
 </script>
 
 <style scoped>
