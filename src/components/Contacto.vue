@@ -7,7 +7,7 @@ const email = ref('');
 const address = ref('');
 const phone = ref('');
 const showCopyMessage = ref(false);
-const coverImageSrc = ref('/img/contacto.png');
+const coverImageSrc = ref('/img/contacto.webp');
 
 // Abrir WhatsApp con un mensaje predeterminado
 const openWhatsApp = () => {

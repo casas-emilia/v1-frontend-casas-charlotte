@@ -66,7 +66,7 @@ onMounted(getActividad);
   <section class="hero-section">
     <div class="hero-overlay"></div>
     <img
-      src="/img/fondo_madera_blog.png"
+      src="/img/fondo_madera_blog.webp"
       class="hero-image"
       alt="Imagen de portada"
     />

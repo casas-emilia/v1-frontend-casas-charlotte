@@ -92,7 +92,7 @@ export default {
 }
 
 #redes-sociales {
-  background-image: url('/img/fondo_redes_sociales_2.png');
+  background-image: url('/img/fondo_redes_sociales_2.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

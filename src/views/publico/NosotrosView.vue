@@ -76,7 +76,7 @@ onMounted(fetchNosotrosData);
 .hero-section {
   position: relative;
   min-height: 100vh;
-  background-image: url('/img/casas_prefabricadas_charlotte_nosotros.png');
+  background-image: url('/img/casas_prefabricadas_charlotte_nosotros.webp');
   background-size: cover;
   background-position: center;
   display: flex;
