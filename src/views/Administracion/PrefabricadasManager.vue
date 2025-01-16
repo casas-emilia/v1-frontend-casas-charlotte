@@ -573,17 +573,16 @@ const fetchImagenes = async (prefabricadaId) => {
       `/administracion/empresas/1/prefabricadas/${prefabricadaId}/imagenesPrefabricadas/`
     );
 
-    // Verifica si la respuesta tiene imágenes
     if (response.data.Imagenes_prefabricadas && response.data.Imagenes_prefabricadas.length > 0) {
       imagenes.value = response.data.Imagenes_prefabricadas.map(imagen => ({
         ...imagen,
-        plano: imagen.plano, // Asume que ya es booleano
+        plano: imagen.plano,
+        image: `${imagen.image}?t=${new Date().getTime()}`  // Add timestamp to force refresh
       }));
     } else {
-      imagenes.value = []; // Si no hay imágenes, asegúrate de que sea un array vacío
+      imagenes.value = [];
     }
   } catch (error) {
-    // Si el error es algo diferente a "no hay imágenes", lo manejamos
     console.error('Error fetching imagenes:', error);
     Swal.fire('Error', 'Ocurrió un problema al intentar cargar las imágenes', 'error');
   }
@@ -673,35 +672,42 @@ const saveImagen = async () => {
       )
     }
 
-    // Asegurarse de que la respuesta contiene la información de la imagen
+    console.log('Server response:', response.data);  // Log the entire response for debugging
+
+    let updatedImage;
     if (response.data && response.data.imagen) {
-      const updatedImage = response.data.imagen
-      const timestamp = new Date().getTime()
-      
-      if (isEditing.value) {
-        const index = imagenes.value.findIndex(img => img.id === updatedImage.id)
-        if (index !== -1) {
-          imagenes.value[index] = {
-            ...imagenes.value[index],
-            ...updatedImage,
-            image: `${updatedImage.image}?t=${timestamp}`
-          }
-        }
-      } else {
-        imagenes.value.push({
+      updatedImage = response.data.imagen;
+    } else if (response.data && response.data.image) {
+      updatedImage = response.data;
+    } else {
+      throw new Error('La respuesta del servidor no contiene la información de la imagen esperada');
+    }
+
+    const timestamp = new Date().getTime()
+    
+    if (isEditing.value) {
+      const index = imagenes.value.findIndex(img => img.id === updatedImage.id)
+      if (index !== -1) {
+        imagenes.value[index] = {
+          ...imagenes.value[index],
           ...updatedImage,
           image: `${updatedImage.image}?t=${timestamp}`
-        })
+        }
       }
-
-      imagenModal.value.hide()
-      Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
     } else {
-      throw new Error('La respuesta del servidor no contiene la información de la imagen')
+      imagenes.value.push({
+        ...updatedImage,
+        image: `${updatedImage.image}?t=${timestamp}`
+      })
     }
+
+    await fetchImagenes(selectedPrefabricada.value.id);  // Refresh the images from the server
+
+    imagenModal.value.hide()
+    Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
   } catch (error) {
     console.error('Error saving imagen:', error)
-    Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'agregar'} la imagen`, 'error')
+    Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'agregar'} la imagen. ${error.message}`, 'error')
   } finally {
     isUploading.value = false
   }
