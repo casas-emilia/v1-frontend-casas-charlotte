@@ -574,10 +574,11 @@ const fetchImagenes = async (prefabricadaId) => {
     );
 
     if (response.data.Imagenes_prefabricadas && response.data.Imagenes_prefabricadas.length > 0) {
+      const timestamp = new Date().getTime()
       imagenes.value = response.data.Imagenes_prefabricadas.map(imagen => ({
         ...imagen,
         plano: imagen.plano,
-        image: `${imagen.image}?t=${new Date().getTime()}`  // Add timestamp to force refresh
+        image: `${imagen.image}?t=${timestamp}`
       }));
     } else {
       imagenes.value = [];
@@ -665,7 +666,7 @@ const saveImagen = async () => {
       )
     }
 
-    console.log('Server response:', response.data);  // Log the entire response for debugging
+    console.log('Server response:', response.data);  // Mantener este log para debugging
 
     let updatedImage;
     if (response.data && response.data.Imagen) {
@@ -692,7 +693,8 @@ const saveImagen = async () => {
       })
     }
 
-    await fetchImagenes(selectedPrefabricada.value.id);  // Refresh the images from the server
+    // Forzar la actualización de la vista
+    imagenes.value = [...imagenes.value]
 
     imagenModal.value.hide()
     Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
