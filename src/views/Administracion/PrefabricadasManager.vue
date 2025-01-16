@@ -673,23 +673,32 @@ const saveImagen = async () => {
       )
     }
 
-    // Update the image in the imagenes array
-    const updatedImage = response.data.imagen
-    if (isEditing.value) {
-      const index = imagenes.value.findIndex(img => img.id === updatedImage.id)
-      if (index !== -1) {
-        imagenes.value[index] = {
-          ...imagenes.value[index],
-          ...updatedImage,
-          image: updatedImage.image + '?t=' + new Date().getTime() // Add timestamp to force image refresh
+    // Asegurarse de que la respuesta contiene la información de la imagen
+    if (response.data && response.data.imagen) {
+      const updatedImage = response.data.imagen
+      const timestamp = new Date().getTime()
+      
+      if (isEditing.value) {
+        const index = imagenes.value.findIndex(img => img.id === updatedImage.id)
+        if (index !== -1) {
+          imagenes.value[index] = {
+            ...imagenes.value[index],
+            ...updatedImage,
+            image: `${updatedImage.image}?t=${timestamp}`
+          }
         }
+      } else {
+        imagenes.value.push({
+          ...updatedImage,
+          image: `${updatedImage.image}?t=${timestamp}`
+        })
       }
-    } else {
-      imagenes.value.push(updatedImage)
-    }
 
-    imagenModal.value.hide()
-    Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
+      imagenModal.value.hide()
+      Swal.fire('Éxito', `Imagen ${isEditing.value ? 'actualizada' : 'agregada'} correctamente`, 'success')
+    } else {
+      throw new Error('La respuesta del servidor no contiene la información de la imagen')
+    }
   } catch (error) {
     console.error('Error saving imagen:', error)
     Swal.fire('Error', `No se pudo ${isEditing.value ? 'actualizar' : 'agregar'} la imagen`, 'error')
