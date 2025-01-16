@@ -61,6 +61,7 @@
                   id="image"
                   @change="handleImageUpload"
                   accept="image/*"
+                  :disabled="isUploading"
                 >
               </div>
               <div v-if="imagePreview" class="mb-3">
@@ -70,6 +71,12 @@
                   class="img-thumbnail" 
                   style="max-width: 200px;"
                 >
+              </div>
+              <div v-if="isUploading" class="mb-3">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Subiendo imagen...</span>
+                </div>
+                <span class="ms-2">Subiendo imagen...</span>
               </div>
 
               <!-- Contact Information Section -->
@@ -104,11 +111,11 @@
                     v-model="contact.direccion_laboral"
                   >
                 </div>
-                <button type="button" class="btn btn-danger" @click="removeContact(index)">
+                <button type="button" class="btn btn-danger" @click="removeContact(index)" :disabled="isLoading">
                   <i class="fas fa-trash-alt"></i> Eliminar Contacto
                 </button>
               </div>
-              <button type="button" class="btn btn-success mb-4" @click="addContact">
+              <button type="button" class="btn btn-success mb-4" @click="addContact" :disabled="isLoading">
                 <i class="fas fa-plus"></i> Agregar Contacto
               </button>
 
@@ -133,8 +140,9 @@
                   v-model="userCredentials.password"
                 >
               </div>
-              <button type="submit" class="btn btn-primary w-100" :disabled="isLoading">
-                <i class="fas fa-save me-2"></i>
+              <button type="submit" class="btn btn-primary w-100" :disabled="isLoading || isUploading">
+                <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <i v-else class="fas fa-save me-2"></i>
                 {{ isLoading ? 'Actualizando...' : 'Actualizar Perfil' }}
               </button>
             </form>
@@ -168,9 +176,9 @@ const userCredentials = reactive({
 })
 
 const isLoading = ref(false)
+const isUploading = ref(false)
 const empresaId = ref(1) // Assuming empresaId is 1
 const baseUrl = `https://v1-backend-casas-charlotte-production.up.railway.app/administracion/empresas/`
-// const baseUrl = `https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/`
 const userId = ref(null)
 
 const imagePreview = computed(() => {
@@ -182,12 +190,12 @@ const imagePreview = computed(() => {
 
 onMounted(async () => {
   const authStore = useAuthStore();
-  // console.log(authStore); // Verifica que esté obteniendo los valores correctamente
   userId.value = authStore.userId
   await fetchUserData()
 })
 
 const fetchUserData = async () => {
+  isLoading.value = true
   try {
     const [profileResponse, contactResponse, credentialsResponse] = await Promise.all([
       axios.get(`${baseUrl}${empresaId.value}/usuarios/${userId.value}`).catch(() => ({ data: { usuario: {} } })),
@@ -205,13 +213,31 @@ const fetchUserData = async () => {
   } catch (error) {
     console.error('Error fetching user data:', error)
     Swal.fire('Error', 'No se pudo cargar la información del usuario', 'error')
+  } finally {
+    isLoading.value = false
   }
 }
 
-const handleImageUpload = (event) => {
+const handleImageUpload = async (event) => {
   const file = event.target.files[0]
   if (file) {
-    userProfile.image = file
+    isUploading.value = true
+    try {
+      const formData = new FormData()
+      formData.append('image', file)
+      await axios.put(`${baseUrl}${empresaId.value}/usuarios/${userId.value}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      userProfile.image = file
+      Swal.fire('Éxito', 'Imagen de perfil actualizada correctamente', 'success')
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      Swal.fire('Error', 'No se pudo subir la imagen de perfil', 'error')
+    } finally {
+      isUploading.value = false
+    }
   }
 }
 
@@ -236,9 +262,6 @@ const updateProfile = async () => {
     formData.append('segundo_nombre', userProfile.segundo_nombre)
     formData.append('primer_apellido', userProfile.primer_apellido)
     formData.append('segundo_apellido', userProfile.segundo_apellido)
-    if (userProfile.image instanceof File) {
-      formData.append('image', userProfile.image)
-    }
 
     await axios.put(`${baseUrl}${empresaId.value}/usuarios/${userId.value}`, formData, {
       headers: {
@@ -306,3 +329,4 @@ const updateProfile = async () => {
   border-color: #0056b3;
 }
 </style>
+
